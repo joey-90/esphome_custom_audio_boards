@@ -25,6 +25,7 @@
 #include "esp_log.h"
 #include "board.h"
 #include "audio_mem.h"
+#include "audio_volume.h"
 #include "periph_sdcard.h"
 #include "periph_adc_button.h"
 #include "tca9554.h"
@@ -64,6 +65,22 @@ audio_hal_handle_t audio_board_codec_init(void)
     audio_hal_handle_t codec_hal = audio_hal_init(&audio_codec_cfg, &AUDIO_CODEC_ES8311_DEFAULT_HANDLE);
     AUDIO_NULL_CHECK(TAG, codec_hal, return NULL);
     return codec_hal;
+}
+
+esp_err_t audio_board_set_volume(audio_board_handle_t board_handle, int volume) {
+  if (!board_handle || !board_handle->audio_hal) {
+    ESP_LOGE(TAG, "Invalid board or audio HAL handle");
+    return ESP_FAIL;
+  }
+  return audio_hal_set_volume(board_handle->audio_hal, volume);
+}
+
+esp_err_t audio_board_get_volume(audio_board_handle_t board_handle, int *volume) {
+  if (!board_handle || !board_handle->audio_hal || !volume) {
+    ESP_LOGE(TAG, "Invalid board or audio HAL handle, or null volume pointer");
+    return ESP_FAIL;
+  }
+  return audio_hal_get_volume(board_handle->audio_hal, volume);
 }
 
 esp_err_t audio_board_key_init(esp_periph_set_handle_t set)
