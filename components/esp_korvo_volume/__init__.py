@@ -3,7 +3,7 @@ import esphome.config_validation as cv
 from esphome.const import CONF_ID
 
 esp_korvo_volume_ns = cg.esphome_ns.namespace('esp_korvo_volume')
-ESPKorvoVolume = esp_box_volume_ns.class_('ESPKorvoVolume', cg.Component)
+ESPKorvoVolume = esp_korvo_volume_ns.class_('ESPKorvoVolume', cg.Component)
 
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(ESPKorvoVolume),
